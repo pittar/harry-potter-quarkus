@@ -2,6 +2,7 @@ package org.infinispan.hp.service;
 
 import io.quarkus.infinispan.client.Remote;
 import io.quarkus.runtime.StartupEvent;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.hp.model.CharacterType;
@@ -16,7 +17,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -97,7 +102,11 @@ public class DataLoader {
     * @throws Exception
     */
    private void loadCharacters(RemoteCache<String, HPCharacter> cache) throws Exception {
-      try (BufferedReader br = new BufferedReader(new FileReader(charactersFileName))) {
+
+      InputStream is = getClass().getClassLoader().getResourceAsStream(charactersFileName);
+
+      try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+
          String line;
          int id = 0;
          while ((line = br.readLine()) != null) {
@@ -118,7 +127,11 @@ public class DataLoader {
     * @throws Exception
     */
    private void loadSpells(RemoteCache<String, HPSpell> cache) throws Exception {
-      try (BufferedReader br = new BufferedReader(new FileReader(spellsFileName))) {
+
+      InputStream is = getClass().getClassLoader().getResourceAsStream(spellsFileName);
+
+      // try (BufferedReader br = new BufferedReader(new FileReader(charactersFileName))) {
+      try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
          String line;
          int id = 0;
          while ((line = br.readLine()) != null) {

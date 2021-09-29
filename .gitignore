@@ -16,3 +16,11 @@ quarkus.log
 README.html
 /lsp/
 .DS_Store
+.project
+.settings
+hogwarts-monitoring/.settings
+hogwarts-monitoring/.classpath
+hogwarts-monitoring/.factorypath
+wizards-magic/.settings
+wizards-magic/.classpath
+wizards-magic/.factorypath
